@@ -1,7 +1,6 @@
 {
   "name": "restronet-automation",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {},
   "keywords": [],
@@ -10,5 +9,13 @@
   "devDependencies": {
     "@playwright/test": "^1.47.2",
     "@types/node": "^22.5.5"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "playwright": "^1.48.1"
   }
 }

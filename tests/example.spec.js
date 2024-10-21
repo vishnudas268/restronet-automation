@@ -1,10 +1,14 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
+const baseurl = process.env.BASE_URL
+const userName = process.env.USERNAME
+const password = process.env.PASSWORD
+
 function getLoginLocator(page){
   return {
-    userName : page.locator("//input[@name='username']"),
-    password : page.locator("//input[@name='password']"),
+    userNameField : page.locator("//input[@name='username']"),
+    passwordField : page.locator("//input[@name='password']"),
     loginButton : page.locator("//button[@name='login']")
   };
 }
@@ -16,23 +20,21 @@ function getSideBarLocator(page){
   }
 }
 
-
-test('login to restronet', async({page}) => {
-  await page.goto('https://demo.restronet.com/newdemo/admin/login');
-  const { userName, password, loginButton} = getLoginLocator(page)
-  await userName.fill("administrator");
-  await password.fill("123456");
-  await loginButton.click();
-  await page.waitForTimeout(6000); 
-  await expect(page).toHaveTitle("Restronet | Admin Dashboard :: Admin panel ") 
-})
+function getBranchCreationLocators(page) {
+  return {
+    branchNameField : page.locator("//input[@name='br_mail']"),
+    branchMobileField : page.locator("//input[@name='br_phone']"),
+    branchAddressField : page.locator("//textarea[@name='br_address']"),
+    submitButton : page.locator("//button[@type='submit']")
+  }
 
 test('Branch Creation', async({page}) => {
-  await page.goto('https://demo.restronet.com/newdemo/admin/login');
-  const { userName, password, loginButton} = getLoginLocator(page)
+  // @ts-ignore
+  await page.goto(baseurl);
+  const { userNameField, passwordField, loginButton} = getLoginLocator(page)
   const { locationbar, branchManagement} = getSideBarLocator(page)
-  await userName.fill("administrator");
-  await password.fill("123456");
+  await userNameField.fill(userName);
+  await passwordField.fill(password);
   await loginButton.click();
   await page.waitForTimeout(6000); 
   await locationbar.click()
@@ -40,3 +42,5 @@ test('Branch Creation', async({page}) => {
   await page.waitForTimeout(6000); 
   await expect(page).toHaveTitle("Restronet | View branches :: Admin panel ") 
 })
+
+}
